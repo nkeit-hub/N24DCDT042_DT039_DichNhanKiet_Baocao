@@ -61,4 +61,18 @@ void thu_hanh_trinh(int k, int chi_phi_hien_tai) {
 
 // Ham kiem tra tinh hop le cua mot hanh trinh
 bool kiem_tra_hanh_trinh(const vector<vector<int>>& mat, const vector<int>& duong) {
-    if ((int) 
+    int m = (int)mat.size();
+    if ((int)duong.size() != m + 1) return false;
+    if (duong[0] != 0 || duong[m] != 0) return false;
+
+    vector<bool> da_di(m, false);
+    for (int i = 0; i < m; ++i) {
+        int u = duong[i];
+        int v = duong[i + 1];
+        if (u < 0 || u >= m || v < 0 || v >= m) return false;
+        if (da_di[u]) return false; // Phat hien dinh trung lap (vi du [1, 2, 2, 1])
+        if (mat[u][v] <= 0) return false; // Khong co duong di truc tiep
+        da_di[u] = true;
+    }
+    return true;
+}
